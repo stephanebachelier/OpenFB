@@ -7,7 +7,25 @@
  * @author Christophe Coenraets @ccoenraets
  * @version 0.3
  */
-var openFB = (function () {
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define([], function () {
+            // Also create a global in case some scripts
+            // that are loaded still are looking for
+            // a global even when an AMD loader is in use.
+            return (root.openFB = factory());
+        });
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like enviroments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals
+        root.openFB = factory();
+    }
+}(this, function () {
 
     var FB_LOGIN_URL = 'https://www.facebook.com/dialog/oauth',
 
@@ -233,6 +251,6 @@ var openFB = (function () {
         revokePermissions: revokePermissions,
         api: api,
         oauthCallback: oauthCallback
-    }
+    };
 
-}());
+}));
